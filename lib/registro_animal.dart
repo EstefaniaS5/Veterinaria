@@ -62,6 +62,14 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
                 controller: _edadController,
                 decoration: InputDecoration(labelText: 'Edad'),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingrese la edad';
+                  } else if (int.tryParse(value) == null) {
+                    return 'Por favor ingrese un número válido para la edad';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _estadoSaludController,

@@ -10,7 +10,6 @@ class _CitasPageState extends State<CitasPage> {
   final TextEditingController _fechaController = TextEditingController();
   final TextEditingController _horaController = TextEditingController();
   final TextEditingController _motivoController = TextEditingController();
-  int _idMascota = 1; // ID de ejemplo para la mascota
 
   // Método para guardar la cita
   void _guardarCita() {

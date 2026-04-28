@@ -17,7 +17,7 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
   // Método para guardar el registro
   void _guardarRegistro() {
     if (_formKey.currentState?.validate() ?? false) {
-      // Aquí enviaríamos la data al backend o base de datos
+      // Aquí enviamos la data al backend o la base de datos
       print("Datos guardados: ${_nombreController.text}, ${_especieController.text}");
     }
   }

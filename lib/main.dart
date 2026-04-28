@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'registro_animal.dart'; // Importa el archivo de la pantalla de registro animal
+import 'registro_animal.dart'; // Pantalla de registro animal
+import 'citas.dart';          // Pantalla de citas
+import 'adopciones.dart';    // Pantalla de adopciones
 
 void main() {
   runApp(MyApp());
@@ -13,10 +15,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RegistroAnimalPage(), // Aquí configuramos RegistroAnimalPage como la pantalla inicial
+      home: RegistroAnimalPage(), // Pantalla inicial
       routes: {
         '/registro': (context) => RegistroAnimalPage(),
-        // Si en el futuro necesitas otras rutas, las puedes agregar aquí.
+        '/citas': (context) => CitasPage(),
+        '/adopciones': (context) => AdopcionesPage(),
       },
     );
   }

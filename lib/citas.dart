@@ -66,6 +66,12 @@ class _CitasPageState extends State<CitasPage> {
                 onPressed: _guardarCita,
                 child: Text('Guardar Cita'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/inicio');
+                },
+                child: Text('Volver al Inicio'),
+              ),
             ],
           ),
         ),

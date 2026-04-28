@@ -69,10 +69,16 @@ class _AdopcionesPageState extends State<AdopcionesPage> {
                 onPressed: _guardarAdopcion,
                 child: Text('Guardar Adopción'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/inicio');
+                },
+                child: Text('Volver al Inicio'),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-}   
+}

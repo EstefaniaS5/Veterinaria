@@ -96,6 +96,12 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
                 onPressed: _guardarRegistro,
                 child: Text('Guardar Registro'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/inicio');
+                },
+                child: Text('Volver al Inicio'),
+              ),
             ],
           ),
         ),

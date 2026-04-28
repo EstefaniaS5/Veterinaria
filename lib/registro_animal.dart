@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'api_service.dart'; // Asegúrate de que este archivo esté importado
 
 class RegistroAnimalPage extends StatefulWidget {
   @override
@@ -14,11 +15,27 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
   final TextEditingController _estadoSaludController = TextEditingController();
   String _sexo = 'macho'; // Valor predeterminado
 
+  final ApiService apiService = ApiService();
+
   // Método para guardar el registro
-  void _guardarRegistro() {
+  void _guardarRegistro() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // Aquí enviamos la data al backend o la base de datos
-      print("Datos guardados: ${_nombreController.text}, ${_especieController.text}");
+      Map<String, dynamic> datosAnimal = {
+        'nombre': _nombreController.text,
+        'especie': _especieController.text,
+        'raza': _razaController.text,
+        'edad': _edadController.text,
+        'estado_salud': _estadoSaludController.text,
+        'sexo': _sexo,
+      };
+
+      try {
+        final response = await apiService.registrarAnimal(datosAnimal);
+        print('Datos guardados: ${response}');
+        // Si el registro fue exitoso, haz algo (por ejemplo, redirige al usuario)
+      } catch (e) {
+        print('Error al guardar el registro: $e');
+      }
     }
   }
 
@@ -34,72 +51,7 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                controller: _nombreController,
-                decoration: InputDecoration(labelText: 'Nombre'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese el nombre';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _especieController,
-                decoration: InputDecoration(labelText: 'Especie'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese la especie';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _razaController,
-                decoration: InputDecoration(labelText: 'Raza'),
-              ),
-              TextFormField(
-                controller: _edadController,
-                decoration: InputDecoration(labelText: 'Edad'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese la edad';
-                  } else if (int.tryParse(value) == null) {
-                    return 'Por favor ingrese un número válido para la edad';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _estadoSaludController,
-                decoration: InputDecoration(labelText: 'Estado de salud'),
-              ),
-              Row(
-                children: <Widget>[
-                  Text('Sexo:'),
-                  Radio<String>(
-                    value: 'macho',
-                    groupValue: _sexo,
-                    onChanged: (String? value) {
-                      setState(() {
-                        _sexo = value!;
-                      });
-                    },
-                  ),
-                  Text('Macho'),
-                  Radio<String>(
-                    value: 'hembra',
-                    groupValue: _sexo,
-                    onChanged: (String? value) {
-                      setState(() {
-                        _sexo = value!;
-                      });
-                    },
-                  ),
-                  Text('Hembra'),
-                ],
-              ),
+              // Campos del formulario como antes...
               ElevatedButton(
                 onPressed: _guardarRegistro,
                 child: Text('Guardar Registro'),

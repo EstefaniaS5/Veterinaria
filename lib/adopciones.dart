@@ -75,4 +75,4 @@ class _AdopcionesPageState extends State<AdopcionesPage> {
       ),
     );
   }
-}
+}   

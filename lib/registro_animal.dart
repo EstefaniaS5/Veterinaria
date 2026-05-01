@@ -33,8 +33,23 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
 
   Future<void> _guardarRegistro() async {
     if (!(_formKey.currentState?.validate() ?? false)) {
+      _mostrarAlerta(
+        'Formulario incompleto',
+        'Por favor completa todos los campos antes de guardar.',
+        esError: true,
+      );
       return;
     }
+
+    // Diálogo de confirmación
+    final confirmar = await _confirmarAccion(
+      titulo: '¿Guardar animal?',
+      mensaje:
+          '¿Deseas registrar a "${_nombreController.text.trim()}" en el sistema?',
+      botonConfirmar: 'Guardar',
+    );
+
+    if (!confirmar) return;
 
     setState(() => _guardando = true);
 
@@ -50,7 +65,7 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
     try {
       final response = await _apiService.registrarAnimal(datosAnimal);
       if (!mounted) return;
-      _mostrarMensaje(response['message']?.toString() ?? 'Animal registrado');
+      _mostrarExito(response['message']?.toString() ?? 'Animal registrado');
       _formKey.currentState?.reset();
       _nombreController.clear();
       _especieController.clear();
@@ -60,18 +75,81 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
       setState(() => _sexo = 'Macho');
     } catch (error) {
       if (!mounted) return;
-      _mostrarMensaje('No se pudo guardar el animal: $error');
+      _mostrarAlerta(
+        'Error al guardar',
+        'No se pudo guardar el animal. Intenta de nuevo.',
+        esError: true,
+      );
     } finally {
-      if (mounted) {
-        setState(() => _guardando = false);
-      }
+      if (mounted) setState(() => _guardando = false);
     }
   }
 
-  void _mostrarMensaje(String mensaje) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(mensaje)));
+  // Snackbar de éxito (verde)
+  void _mostrarExito(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 10),
+            Expanded(child: Text(mensaje)),
+          ],
+        ),
+        backgroundColor: Colors.green.shade600,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  // Snackbar de error (rojo)
+  void _mostrarAlerta(String titulo, String mensaje, {bool esError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              esError ? Icons.error_outline : Icons.info_outline,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            Expanded(child: Text(mensaje)),
+          ],
+        ),
+        backgroundColor: esError ? Colors.red.shade600 : Colors.blue.shade600,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 4),
+      ),
+    );
+  }
+
+  // Diálogo de confirmación
+  Future<bool> _confirmarAccion({
+    required String titulo,
+    required String mensaje,
+    required String botonConfirmar,
+  }) async {
+    final resultado = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(titulo),
+        content: Text(mensaje),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(botonConfirmar),
+          ),
+        ],
+      ),
+    );
+    return resultado ?? false;
   }
 
   @override
@@ -118,7 +196,7 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
               TextFormField(
                 controller: _edadController,
                 decoration: const InputDecoration(
-                  labelText: 'Edad',
+                  labelText: 'Edad (años)',
                   prefixIcon: Icon(Icons.cake_outlined),
                 ),
                 keyboardType: TextInputType.number,
@@ -131,15 +209,30 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
                 decoration: const InputDecoration(
                   labelText: 'Estado de salud',
                   prefixIcon: Icon(Icons.health_and_safety_outlined),
+                  hintText: 'Ej: Sano, vacunado, en tratamiento...',
                 ),
                 maxLines: 3,
                 validator: _requerido,
               ),
               const SizedBox(height: 18),
+              // Label de sexo
+              Text(
+                'Sexo',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              const SizedBox(height: 8),
               SegmentedButton<String>(
                 segments: const [
-                  ButtonSegment(value: 'Macho', label: Text('Macho')),
-                  ButtonSegment(value: 'Hembra', label: Text('Hembra')),
+                  ButtonSegment(
+                    value: 'Macho',
+                    label: Text('Macho'),
+                    icon: Icon(Icons.male),
+                  ),
+                  ButtonSegment(
+                    value: 'Hembra',
+                    label: Text('Hembra'),
+                    icon: Icon(Icons.female),
+                  ),
                 ],
                 selected: {_sexo},
                 onSelectionChanged: (value) {
@@ -153,7 +246,10 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
                     ? const SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(Icons.save_outlined),
                 label: Text(_guardando ? 'Guardando...' : 'Guardar registro'),
@@ -175,12 +271,8 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
   String? _edadValida(String? value) {
     final texto = value?.trim() ?? '';
     final edad = int.tryParse(texto);
-    if (edad == null) {
-      return 'Ingrese una edad válida';
-    }
-    if (edad < 0 || edad > 80) {
-      return 'Ingrese una edad entre 0 y 80';
-    }
+    if (edad == null) return 'Ingrese una edad válida (solo números)';
+    if (edad < 0 || edad > 80) return 'La edad debe estar entre 0 y 80 años';
     return null;
   }
 }

@@ -6,7 +6,6 @@ class InicioPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sistema veterinario'),
@@ -37,8 +36,7 @@ class InicioPage extends StatelessWidget {
             _MenuOption(
               icon: Icons.event_available,
               title: 'Citas',
-              subtitle:
-                  'Agendar atención veterinaria con fecha, hora y motivo.',
+              subtitle: 'Agendar atención veterinaria con fecha, hora y motivo.',
               route: '/citas',
             ),
             _MenuOption(
@@ -46,6 +44,13 @@ class InicioPage extends StatelessWidget {
               title: 'Adopciones',
               subtitle: 'Registrar estado y fecha del proceso de adopción.',
               route: '/adopciones',
+            ),
+            // SCRUM-62: Reportes urgentes
+            _MenuOption(
+              icon: Icons.report_problem_outlined,
+              title: 'Reportes',
+              subtitle: 'Reportar abandono, maltrato o animal en riesgo.',
+              route: '/reportes',
             ),
           ],
         ),
@@ -81,3 +86,4 @@ class _MenuOption extends StatelessWidget {
     );
   }
 }
+

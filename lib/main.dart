@@ -4,6 +4,7 @@ import 'citas.dart';
 import 'inicio.dart';
 import 'registro_animal.dart';
 import 'reportes_page.dart'; // SCRUM-62
+import 'busqueda_page.dart'; // SCRUM-63
 
 void main() {
   runApp(const MyApp());

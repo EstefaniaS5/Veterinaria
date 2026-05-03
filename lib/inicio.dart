@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
+ 
 class InicioPage extends StatelessWidget {
   const InicioPage({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -59,13 +59,20 @@ class InicioPage extends StatelessWidget {
               subtitle: 'Filtra por nombre, especie, raza, edad y género.',
               route: '/busqueda',
             ),
+            // SCRUM-61: Detección de duplicados
+            _MenuOption(
+              icon: Icons.content_copy,
+              title: 'Duplicados',
+              subtitle: 'Detecta animales registrados más de una vez.',
+              route: '/duplicados',
+            ),
           ],
         ),
       ),
     );
   }
 }
-
+ 
 class _MenuOption extends StatelessWidget {
   const _MenuOption({
     required this.icon,
@@ -73,12 +80,12 @@ class _MenuOption extends StatelessWidget {
     required this.subtitle,
     required this.route,
   });
-
+ 
   final IconData icon;
   final String title;
   final String subtitle;
   final String route;
-
+ 
   @override
   Widget build(BuildContext context) {
     return Card(

@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         '/citas': (context) => const CitasPage(),
         '/adopciones': (context) => const AdopcionesPage(),
         '/reportes': (context) => const ReportesPage(), // SCRUM-62
-        '/busqueda': (context) => const BusquedaPage(), // SCRUM-63
       },
     );
   }

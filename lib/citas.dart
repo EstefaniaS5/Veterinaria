@@ -58,8 +58,19 @@ class _CitasPageState extends State<CitasPage> {
 
   Future<void> _guardarCita() async {
     if (!(_formKey.currentState?.validate() ?? false)) {
+      _mostrarAlerta('Por favor completa todos los campos del formulario.');
       return;
     }
+
+    // Diálogo de confirmación
+    final confirmar = await _confirmarAccion(
+      titulo: '¿Agendar cita?',
+      mensaje:
+          '¿Confirmas la cita para "${_mascotaController.text.trim()}" el ${_fechaController.text} a las ${_horaController.text}?',
+      botonConfirmar: 'Confirmar',
+    );
+
+    if (!confirmar) return;
 
     setState(() => _guardando = true);
 
@@ -74,7 +85,7 @@ class _CitasPageState extends State<CitasPage> {
     try {
       final response = await _apiService.registrarCita(datosCita);
       if (!mounted) return;
-      _mostrarMensaje(response['message']?.toString() ?? 'Cita agendada');
+      _mostrarExito(response['message']?.toString() ?? 'Cita agendada');
       _formKey.currentState?.reset();
       _mascotaController.clear();
       _responsableController.clear();
@@ -83,18 +94,71 @@ class _CitasPageState extends State<CitasPage> {
       _motivoController.clear();
     } catch (error) {
       if (!mounted) return;
-      _mostrarMensaje('No se pudo guardar la cita: $error');
+      _mostrarAlerta('No se pudo guardar la cita. Intenta de nuevo.');
     } finally {
-      if (mounted) {
-        setState(() => _guardando = false);
-      }
+      if (mounted) setState(() => _guardando = false);
     }
   }
 
-  void _mostrarMensaje(String mensaje) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(mensaje)));
+  void _mostrarExito(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 10),
+            Expanded(child: Text(mensaje)),
+          ],
+        ),
+        backgroundColor: Colors.green.shade600,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void _mostrarAlerta(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.error_outline, color: Colors.white),
+            const SizedBox(width: 10),
+            Expanded(child: Text(mensaje)),
+          ],
+        ),
+        backgroundColor: Colors.red.shade600,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 4),
+      ),
+    );
+  }
+
+  Future<bool> _confirmarAccion({
+    required String titulo,
+    required String mensaje,
+    required String botonConfirmar,
+  }) async {
+    final resultado = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(titulo),
+        content: Text(mensaje),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(botonConfirmar),
+          ),
+        ],
+      ),
+    );
+    return resultado ?? false;
   }
 
   @override
@@ -132,6 +196,7 @@ class _CitasPageState extends State<CitasPage> {
                 decoration: const InputDecoration(
                   labelText: 'Fecha',
                   prefixIcon: Icon(Icons.calendar_today_outlined),
+                  hintText: 'Toca para seleccionar fecha',
                 ),
                 readOnly: true,
                 onTap: _seleccionarFecha,
@@ -143,6 +208,7 @@ class _CitasPageState extends State<CitasPage> {
                 decoration: const InputDecoration(
                   labelText: 'Hora',
                   prefixIcon: Icon(Icons.schedule_outlined),
+                  hintText: 'Toca para seleccionar hora',
                 ),
                 readOnly: true,
                 onTap: _seleccionarHora,
@@ -152,8 +218,9 @@ class _CitasPageState extends State<CitasPage> {
               TextFormField(
                 controller: _motivoController,
                 decoration: const InputDecoration(
-                  labelText: 'Motivo',
+                  labelText: 'Motivo de la cita',
                   prefixIcon: Icon(Icons.description_outlined),
+                  hintText: 'Ej: Vacunación, chequeo, consulta...',
                 ),
                 maxLines: 3,
                 validator: _requerido,
@@ -165,7 +232,10 @@ class _CitasPageState extends State<CitasPage> {
                     ? const SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(Icons.event_available),
                 label: Text(_guardando ? 'Guardando...' : 'Guardar cita'),

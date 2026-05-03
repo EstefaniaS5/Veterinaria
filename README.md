@@ -1,4 +1,4 @@
-# 🐾 Veterinaria App
+# Veterinaria App
 
 Aplicación veterinaria orientada a la gestión clínica y administrativa de una veterinaria o fundación de rescate animal.
 
@@ -12,7 +12,7 @@ Aplicación veterinaria orientada a la gestión clínica y administrativa de una
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 Este proyecto consiste en el desarrollo de una aplicación que permite gestionar de manera eficiente la información relacionada con una veterinaria o fundación animal.  
 
@@ -28,7 +28,7 @@ El sistema fue diseñado para reemplazar procesos manuales (papel y Excel) y mej
 
 ---
 
-## 🎯 Objetivo
+## Objetivo
 
 Desarrollar una solución tecnológica que permita:
 - Digitalizar la información clínica de las mascotas  
@@ -38,7 +38,7 @@ Desarrollar una solución tecnológica que permita:
 
 ---
 
-## 👥 Usuarios del sistema
+## Usuarios del sistema
 
 El sistema contempla diferentes tipos de usuarios:
 
@@ -49,7 +49,7 @@ El sistema contempla diferentes tipos de usuarios:
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - **Frontend:** Flutter / Web  
 - **Backend:** Node.js + Express  
@@ -59,20 +59,20 @@ El sistema contempla diferentes tipos de usuarios:
 
 ---
 
-## 🧱 Arquitectura del sistema
+## Arquitectura del sistema
 
 El sistema sigue una arquitectura básica cliente-servidor:
-
+```bash
 Frontend (App)
 ↓
 Backend (API REST)
 ↓
 Base de Datos (MySQL)
-
+```
 
 ---
 
-## 🗄️ Base de datos
+## Base de datos
 
 La base de datos fue diseñada siguiendo principios de normalización para evitar redundancia de datos.
 
@@ -93,15 +93,16 @@ La base de datos fue diseñada siguiendo principios de normalización para evita
 
 ---
 
-## 📊 Modelo ER
+## Modelo ER
 
 El sistema cuenta con un modelo entidad-relación que define las entidades principales y sus relaciones.
 
-*(Aquí puedes insertar la imagen del diagrama ER si quieres)*
+<img width="1011" height="694" alt="image" src="https://github.com/user-attachments/assets/86555551-823c-4baa-82f0-60653aaf5cd4" />
+
 
 ---
 
-## 🚀 Funcionalidades principales
+## Funcionalidades principales
 
 - Registro e inicio de sesión de usuarios  
 - Registro y gestión de mascotas  
@@ -113,7 +114,7 @@ El sistema cuenta con un modelo entidad-relación que define las entidades princ
 
 ---
 
-## 🧪 Datos de prueba
+## Datos de prueba
 
 El sistema incluye datos de prueba para validar su funcionamiento, como:
 - Usuarios de ejemplo  
@@ -123,7 +124,7 @@ El sistema incluye datos de prueba para validar su funcionamiento, como:
 
 ---
 
-## ▶️ Cómo ejecutar el proyecto
+## Cómo ejecutar el proyecto
 
 ### 1. Clonar repositorio
 ```bash
@@ -157,7 +158,7 @@ flutter run
 ```
 
 ### Estructura del proyecto
-
+```bash
 veterinaria-app/
 │
 ├── backend/
@@ -166,18 +167,23 @@ veterinaria-app/
 │   └── veterinaria_db.sql
 ├── docs/
 └── README.md
+```
+
+---
 
 ### Metodología de trabajo
 
-El proyecto fue organizado utilizando Scrum, dividiendo el trabajo en diferentes módulos:
+El proyecto fue organizado utilizando Scrum en Jira, dividiendo el trabajo en diferentes módulos:
 
-Análisis y requisitos
-Diseño del sistema
-Backend
-Frontend
-Integración e IA
+- Análisis y requisitos
+- Diseño del sistema
+- Backend
+- Frontend
+- Integración e IA
 
 Cada módulo fue desarrollado por un miembro del equipo.
+
+---
 
 ### Aprendizajes
 
@@ -188,6 +194,8 @@ Durante el desarrollo se aprendió:
 - Creación de APIs REST
 - Integración entre frontend y backend
 - Trabajo en equipo con Git y Scrum
+
+---
 
 ### Conclusión
 

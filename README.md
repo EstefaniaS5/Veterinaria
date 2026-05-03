@@ -5,7 +5,7 @@ Aplicación veterinaria orientada a la gestión clínica y administrativa de una
 ---
 ### Integrantes:
 - Estefania Solórzano - 00332809
--
+- Daniela Urbina - 00332927
 -
 -
 - 
@@ -179,7 +179,8 @@ El proyecto fue organizado utilizando Scrum en Jira, dividiendo el trabajo en di
 - Diseño del sistema
 - Backend
 - Frontend
-- Integración e IA
+- Funciones IA: El módulo de IA y funciones extra incluye detección de animales duplicados mediante un algoritmo de similitud de texto, un sistema de reportes urgentes con tres niveles de prioridad, y búsqueda inteligente de animales con múltiples filtros. Además se actualizó el ApiService para conectarse correctamente al backend .NET y se mejoraron los mensajes y alertas de todos los formularios existentes.
+
 
 Cada módulo fue desarrollado por un miembro del equipo.
 

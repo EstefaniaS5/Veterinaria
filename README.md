@@ -8,7 +8,7 @@ Aplicación veterinaria orientada a la gestión clínica y administrativa de una
 - Daniela Urbina - 00332927
 - Daniel Salazar - 00335587
 - Daniel Pérez - 00329938
-- 
+- Eduardo Mejía - 00331500
 
 ---
 

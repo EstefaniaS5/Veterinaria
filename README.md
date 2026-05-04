@@ -7,7 +7,7 @@ Aplicación veterinaria orientada a la gestión clínica y administrativa de una
 - Estefania Solórzano - 00332809
 - Daniela Urbina - 00332927
 - Daniel Salazar - 00335587
--
+- Daniel Pérez - 00329938
 - 
 
 ---
@@ -52,8 +52,8 @@ El sistema contempla diferentes tipos de usuarios:
 ## Tecnologías utilizadas
 
 - **Frontend:** Flutter / Web  
-- **Backend:** Node.js + Express  
-- **Base de datos:** MySQL  
+- **Backend:** .NET
+- **Base de datos:** SQL MICROSOFT 
 - **Entorno:** Ubuntu Server (Virtual Machine)  
 - **Control de versiones:** Git & GitHub  
 

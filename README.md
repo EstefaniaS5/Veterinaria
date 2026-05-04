@@ -6,7 +6,7 @@ Aplicación veterinaria orientada a la gestión clínica y administrativa de una
 ### Integrantes:
 - Estefania Solórzano - 00332809
 - Daniela Urbina - 00332927
--
+- Daniel Salazar - 00335587
 -
 - 
 
@@ -185,6 +185,80 @@ El proyecto fue organizado utilizando Scrum en Jira, dividiendo el trabajo en di
 Cada módulo fue desarrollado por un miembro del equipo.
 
 ---
+Con respecto al fronted: 
+
+# Frontend Flutter
+
+## Descripción general
+
+El frontend está desarrollado en Flutter y contiene la interfaz que utilizará el usuario para navegar entre las funciones principales del sistema.
+
+La aplicación incluye una pantalla de inicio y tres módulos principales:
+
+- Registro de animales.
+- Agenda de citas.
+- Registro de adopciones.
+
+En la pantalla principal se muestran las opciones para acceder a cada módulo. La navegación ya está configurada mediante rutas internas de Flutter, por lo que el usuario puede moverse entre las pantallas desde el menú principal.
+
+---
+
+## Módulos del frontend
+
+### Registro de animales
+
+En el módulo de registro de animales se creó un formulario con los siguientes campos:
+
+- Nombre.
+- Especie.
+- Raza.
+- Edad.
+- Estado de salud.
+- Sexo.
+
+También se agregaron validaciones simples para evitar el envío de campos vacíos y para comprobar que la edad ingresada sea válida.
+
+---
+
+### Agenda de citas
+
+En el módulo de citas se creó un formulario para registrar la siguiente información:
+
+- Mascota.
+- Responsable.
+- Fecha.
+- Hora.
+- Motivo de la cita.
+
+La fecha y la hora se seleccionan mediante controles propios de Flutter. Además, los campos cuentan con validación obligatoria.
+
+---
+
+### Registro de adopciones
+
+En el módulo de adopciones se creó un formulario para registrar la siguiente información:
+
+- Animal.
+- Adoptante.
+- Fecha de adopción.
+- Estado del proceso.
+
+El estado del proceso puede tener uno de los siguientes valores:
+
+- En proceso.
+- Aprobada.
+- Rechazada.
+
+---
+
+## Mensajes y estados de carga
+
+El frontend muestra mensajes de éxito o error cuando se intenta guardar información.
+
+Además, cuenta con estados de carga, como:
+
+```txt
+Guardando...
 
 ### Aprendizajes
 

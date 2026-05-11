@@ -8,7 +8,9 @@ CREATE TABLE usuarios (
     nombre VARCHAR(100) NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
     telefono VARCHAR(20),
-    rol ENUM('admin', 'veterinario', 'voluntario', 'cliente') NOT NULL
+    rol ENUM('admin', 'veterinario', 'voluntario', 'cliente') NOT NULL,
+    especialidad VARCHAR(100),
+    imagen_url VARCHAR(255)
 );
 
 -- TABLA MASCOTAS
@@ -20,6 +22,9 @@ CREATE TABLE mascotas (
     edad INT,
     sexo ENUM('macho', 'hembra'),
     estado_salud VARCHAR(100),
+    imagen_url VARCHAR(255),
+    descripcion TEXT,
+    estado_adopcion ENUM('disponible', 'adoptado', 'no_apto') DEFAULT 'no_apto',
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
@@ -32,7 +37,9 @@ CREATE TABLE citas (
     motivo VARCHAR(150) NOT NULL,
     estado ENUM('pendiente', 'completada', 'cancelada') DEFAULT 'pendiente',
     id_mascota INT,
-    FOREIGN KEY (id_mascota) REFERENCES mascotas(id_mascota)
+    id_veterinario INT,
+    FOREIGN KEY (id_mascota) REFERENCES mascotas(id_mascota),
+    FOREIGN KEY (id_veterinario) REFERENCES usuarios(id_usuario)
 );
 
 -- TABLA VACUNAS
@@ -49,6 +56,11 @@ CREATE TABLE vacunas (
 CREATE TABLE adopciones (
     id_adopcion INT AUTO_INCREMENT PRIMARY KEY,
     fecha_adopcion DATE NOT NULL,
+    tipo_hogar VARCHAR(50),
+    experiencia_previa BOOLEAN DEFAULT FALSE,
+    ocupacion VARCHAR(150),
+    sector_vivienda VARCHAR(150),
+    motivo TEXT,
     estado ENUM('en proceso', 'aprobada', 'rechazada') DEFAULT 'en proceso',
     id_mascota INT,
     id_usuario INT,
@@ -71,20 +83,22 @@ CREATE TABLE reportes (
 -- DATOS DE PRUEBA
 
 -- USUARIOS
-INSERT INTO usuarios (nombre, correo, telefono, rol) VALUES
-('Ana Lopez', 'ana@gmail.com', '0991111111', 'cliente'),
-('Carlos Perez', 'carlos@gmail.com', '0992222222', 'veterinario'),
-('Maria Ruiz', 'maria@gmail.com', '0993333333', 'voluntario');
+INSERT INTO usuarios (nombre, correo, telefono, rol, especialidad, imagen_url) VALUES
+('Ana Lopez', 'ana@gmail.com', '0991111111', 'cliente', NULL, NULL),
+('Dr. Carlos Perez', 'carlos@gmail.com', '0992222222', 'veterinario', 'Cirugía General', 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400'),
+('Dra. Sofia Mendez', 'sofia@gmail.com', '0995555555', 'veterinario', 'Medicina Interna', 'https://images.unsplash.com/photo-1594824436951-7f12bc4175de?auto=format&fit=crop&q=80&w=400'),
+('Maria Ruiz', 'maria@gmail.com', '0993333333', 'voluntario', NULL, NULL);
 
 -- MASCOTAS
-INSERT INTO mascotas (nombre, especie, raza, edad, sexo, estado_salud, id_usuario) VALUES
-('Firulais', 'Perro', 'Labrador', 3, 'macho', 'Sano', 1),
-('Mishi', 'Gato', 'Siames', 2, 'hembra', 'Vacunada', 1);
+INSERT INTO mascotas (nombre, especie, raza, edad, sexo, estado_salud, imagen_url, descripcion, estado_adopcion, id_usuario) VALUES
+('Firulais', 'Perro', 'Labrador', 3, 'macho', 'Sano', 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=400', 'Juguetón y muy amigable con los niños.', 'disponible', NULL),
+('Mishi', 'Gato', 'Siames', 2, 'hembra', 'Vacunada', NULL, 'Gatita muy tranquila.', 'adoptado', 1),
+('Rocky', 'Perro', 'Bulldog', 1, 'macho', 'Sano', 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=400', 'Le encanta dormir en el sofá.', 'disponible', NULL);
 
 -- CITAS
-INSERT INTO citas (fecha, hora, motivo, estado, id_mascota) VALUES
-('2026-04-25', '10:00:00', 'Vacunacion anual', 'pendiente', 1),
-('2026-04-26', '11:30:00', 'Chequeo general', 'pendiente', 2);
+INSERT INTO citas (fecha, hora, motivo, estado, id_mascota, id_veterinario) VALUES
+('2026-04-25', '10:00:00', 'Vacunacion anual', 'pendiente', 1, 2),
+('2026-04-26', '11:30:00', 'Chequeo general', 'pendiente', 2, 3);
 
 -- VACUNAS
 INSERT INTO vacunas (nombre_vacuna, fecha_aplicacion, proxima_dosis, id_mascota) VALUES
@@ -92,8 +106,8 @@ INSERT INTO vacunas (nombre_vacuna, fecha_aplicacion, proxima_dosis, id_mascota)
 ('Triple felina', '2026-04-18', '2027-04-18', 2);
 
 -- ADOPCIONES
-INSERT INTO adopciones (fecha_adopcion, estado, id_mascota, id_usuario) VALUES
-('2026-04-15', 'en proceso', 1, 1);
+INSERT INTO adopciones (fecha_adopcion, tipo_hogar, experiencia_previa, ocupacion, sector_vivienda, motivo, estado, id_mascota, id_usuario) VALUES
+('2026-04-15', 'Casa', TRUE, 'Ingeniero', 'Norte de la ciudad', 'Queremos un nuevo miembro en la familia', 'en proceso', 1, 1);
 
 -- REPORTES
 INSERT INTO reportes (tipo_reporte, descripcion, ubicacion, fecha_reporte, estado, id_usuario) VALUES

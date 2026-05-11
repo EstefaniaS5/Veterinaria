@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'api_service.dart';
+import '../services/api_service.dart';
 
 class RegistroAnimalPage extends StatefulWidget {
   const RegistroAnimalPage({super.key});
@@ -154,98 +154,137 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Registro animal')),
+      appBar: AppBar(
+        title: const Text('Registro Animal'),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             children: [
-              TextFormField(
-                controller: _nombreController,
-                decoration: const InputDecoration(
-                  labelText: 'Nombre',
-                  prefixIcon: Icon(Icons.badge_outlined),
-                ),
-                textInputAction: TextInputAction.next,
-                validator: _requerido,
-              ),
-              const SizedBox(height: 14),
-              TextFormField(
-                controller: _especieController,
-                decoration: const InputDecoration(
-                  labelText: 'Especie',
-                  hintText: 'Perro, gato, conejo...',
-                  prefixIcon: Icon(Icons.pets),
-                ),
-                textInputAction: TextInputAction.next,
-                validator: _requerido,
-              ),
-              const SizedBox(height: 14),
-              TextFormField(
-                controller: _razaController,
-                decoration: const InputDecoration(
-                  labelText: 'Raza',
-                  prefixIcon: Icon(Icons.category_outlined),
-                ),
-                textInputAction: TextInputAction.next,
-                validator: _requerido,
-              ),
-              const SizedBox(height: 14),
-              TextFormField(
-                controller: _edadController,
-                decoration: const InputDecoration(
-                  labelText: 'Edad (años)',
-                  prefixIcon: Icon(Icons.cake_outlined),
-                ),
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                validator: _edadValida,
-              ),
-              const SizedBox(height: 14),
-              TextFormField(
-                controller: _estadoSaludController,
-                decoration: const InputDecoration(
-                  labelText: 'Estado de salud',
-                  prefixIcon: Icon(Icons.health_and_safety_outlined),
-                  hintText: 'Ej: Sano, vacunado, en tratamiento...',
-                ),
-                maxLines: 3,
-                validator: _requerido,
-              ),
-              const SizedBox(height: 18),
-              // Label de sexo
               Text(
-                'Sexo',
-                style: Theme.of(context).textTheme.labelLarge,
+                'Nueva Ficha Médica',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary,
+                ),
               ),
               const SizedBox(height: 8),
-              SegmentedButton<String>(
-                segments: const [
-                  ButtonSegment(
-                    value: 'Macho',
-                    label: Text('Macho'),
-                    icon: Icon(Icons.male),
-                  ),
-                  ButtonSegment(
-                    value: 'Hembra',
-                    label: Text('Hembra'),
-                    icon: Icon(Icons.female),
-                  ),
-                ],
-                selected: {_sexo},
-                onSelectionChanged: (value) {
-                  setState(() => _sexo = value.first);
-                },
+              Text(
+                'Ingresa los datos del paciente para registrarlo en la clínica.',
+                style: TextStyle(color: Colors.grey.shade600),
               ),
               const SizedBox(height: 24),
+              Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: _nombreController,
+                        decoration: const InputDecoration(
+                          labelText: 'Nombre',
+                          prefixIcon: Icon(Icons.badge_outlined),
+                        ),
+                        textInputAction: TextInputAction.next,
+                        validator: _requerido,
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _especieController,
+                              decoration: const InputDecoration(
+                                labelText: 'Especie',
+                                hintText: 'Ej: Perro',
+                                prefixIcon: Icon(Icons.pets),
+                              ),
+                              textInputAction: TextInputAction.next,
+                              validator: _requerido,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _razaController,
+                              decoration: const InputDecoration(
+                                labelText: 'Raza',
+                                prefixIcon: Icon(Icons.category_outlined),
+                              ),
+                              textInputAction: TextInputAction.next,
+                              validator: _requerido,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _edadController,
+                        decoration: const InputDecoration(
+                          labelText: 'Edad (años)',
+                          prefixIcon: Icon(Icons.cake_outlined),
+                        ),
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        validator: _edadValida,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _estadoSaludController,
+                        decoration: const InputDecoration(
+                          labelText: 'Estado de salud',
+                          prefixIcon: Icon(Icons.health_and_safety_outlined),
+                          hintText: 'Ej: Sano, vacunado, en tratamiento...',
+                        ),
+                        maxLines: 3,
+                        validator: _requerido,
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Sexo',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: SegmentedButton<String>(
+                          segments: const [
+                            ButtonSegment(
+                              value: 'Macho',
+                              label: Text('Macho'),
+                              icon: Icon(Icons.male),
+                            ),
+                            ButtonSegment(
+                              value: 'Hembra',
+                              label: Text('Hembra'),
+                              icon: Icon(Icons.female),
+                            ),
+                          ],
+                          selected: {_sexo},
+                          onSelectionChanged: (value) {
+                            setState(() => _sexo = value.first);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
               FilledButton.icon(
                 onPressed: _guardando ? null : _guardarRegistro,
                 icon: _guardando
                     ? const SizedBox(
-                        width: 18,
-                        height: 18,
+                        width: 20,
+                        height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           color: Colors.white,
@@ -254,6 +293,7 @@ class _RegistroAnimalPageState extends State<RegistroAnimalPage> {
                     : const Icon(Icons.save_outlined),
                 label: Text(_guardando ? 'Guardando...' : 'Guardar registro'),
               ),
+              const SizedBox(height: 40),
             ],
           ),
         ),

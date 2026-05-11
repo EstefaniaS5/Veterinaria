@@ -1,16 +1,19 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files
 *.log
+LOG
+LOG.old
+CURRENT
 
 # BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+# Mobile Tools for Java
 .mtj.tmp/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -19,6 +22,60 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Java crash logs
 hs_err_pid*
 replay_pid*
+
+# Flutter / Dart
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+.metadata
+
+# Flutter web / Chrome temp
+chrome-device/
+.dart_tool/chrome-device/
+
+# Android
+android/.gradle/
+android/app/build/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# .NET
+bin/
+obj/
+.vs/
+*.dll
+*.exe
+*.pdb
+
+# NuGet
+.nuget/
+*.nupkg
+packages/
+
+# Visual Studio / VS Code
+*.user
+*.suo
+.vscode/
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
